@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/grafico.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard de Stock</title>
+</head>
+<body>
+    
+    <nav class="navbar">
+            <h1>Estátistica do Stock</h1>
+
+            <div class="botao">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+                
+            <ul class="menu">
+                <li><a href="index.html">Procurar Referências</a></li>
+                <li><a href="admin.html">Administrador</a></li>
+                <li><a href="javascript:void(0)" onclick="fazerLogout()">Sair Deste Painel</a></li>
+            </ul>
+        </nav>
+
+    <div class="dashboard">
+        <div class="cards">
+            <div class="card"><h2>Total Referências</h2><p id="txtTotal">0</p></div>
+            <div class="card"><h2>No Balcão</h2><p id="txtBalcao">0</p></div>
+            <div class="card"><h2>Armazém 1</h2><p id="txtArmazem1">0</p></div>
+            <div class="card"><h2>Armazém 2</h2><p id="txtArmazem2">0</p></div>
+        </div>
+
+        <div class="grafico-box principal">
+            <h3>Distribuição por Localização</h3>
+            <div class="canvas-wrapper">
+                <canvas id="graficoStock"></canvas>
+            </div>
+        </div>
+
+        <div class="grafico-container secundario">
+            <h3>Produtos Mais Procurados</h3>
+            <div class="canvas-wrapper-pizza">
+                <canvas id="graficoBuscas"></canvas>
+            </div>
+            <p id="msgSemDados" style="display:none; padding: 20px;">Ainda não há dados de buscas registradas.</p>
+        </div>
+    </div>
+
+    <div id="mensagemFeedback" class="alerta"></div>
+
+    <footer>&copy; 2026 - Auxiliador do Stock</footer>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>

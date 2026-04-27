@@ -1,0 +1,135 @@
+/* ========================= */
+/* CONFIGURAÇÕES GERAIS */
+/* ========================= */
+* {
+    box-sizing: border-box;
+    color: #c7c7ce;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.3px;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #0f0c2b;
+    color: #c7c7ce;
+    min-height: 100vh;
+}
+
+.campo {
+    margin: 0 auto 15px;
+    max-width: 300px;
+    width: 100%;
+
+}
+
+label {
+    cursor: pointer;
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    padding: 2px 5px;
+}
+
+input {
+    background: #0f0c2b;
+    border: 1px solid #c7c7ce;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    max-width: 300px;
+    outline: none;
+    padding: 8px 10px;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+}
+
+input:focus { 
+    border-color: #083492;
+    transition: 0.3s ease-in-out; 
+}
+
+button {
+    background: #083492;
+    border: none;
+    border-radius: 6px;
+    color: #c7c7ce;
+    cursor: pointer;
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 10px auto;
+    max-width: 300px;
+    padding: 8px;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+}
+
+button:hover { 
+    opacity: 0.5;
+    transition: 0.3s ease-in-out; 
+}
+
+/* ========================= */
+/* ALERTAS */
+/* ========================= */
+
+.alerta {
+    background: #830f0fb0;
+    border-left: 10px solid #c7c7cebb;
+    border-radius: 5px;
+    color: #c7c7ce;
+    display: none;
+    font-weight: bold;
+    margin: 20% auto;
+    max-width: 400px;
+    opacity: 5;
+    padding: 10px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+}
+.alerta-sucesso { 
+    background: #28a745; 
+    border-left: 10px solid #c7c7cebb;
+    border-radius: 5px;
+    color: #c7c7ce;
+    display: none;
+    font-weight: bold;
+    margin: 20% auto;
+    max-width: 400px;
+    opacity: 5;
+    padding: 10px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 100; 
+}
+
+.alerta-erro { 
+    background: #830f0fb0;
+    border-left: 10px solid #c7c7cebb;
+    border-radius: 5px;
+    color: #c7c7ce;
+    display: none;
+    font-weight: bold;
+    margin: 20% auto;
+    max-width: 400px;
+    opacity: 5;
+    padding: 10px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+}
+
+
+footer {
+    color: #666;
+    font-size: 0.8rem;
+    margin-top: 45px;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}

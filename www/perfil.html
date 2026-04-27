@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <title>Meu Perfil | A-Stock</title>
+</head>
+<body>
+    <nav class="navbar">
+            <h1>Auxiliador do Stock</h1>
+
+            <div class="botao">
+                <div class="line1"></div><div class="line2"></div><div class="line3"></div>
+            </div>
+            <ul class="menu">
+                <li><a href="index.html">Procurar Referências</a></li>
+                <li><a href="javascript:void(0)" onclick="fazerLogout()">Sair Deste Painel</a></li>
+            </ul>
+        </nav>
+
+    <main class="perfil-container">
+        <section class="perfil-header">
+            <div class="foto-container">
+                <img src="img/avatar-padrao.png" id="fotoPerfil" alt="Foto de Perfil">
+                <label for="upload-foto" class="btn-edit-foto" title="Alterar Foto">
+                    <img src="img/camara.png" alt="Upload">
+                </label>
+                <input type="file" id="upload-foto" accept="image/*" hidden>
+            </div>
+            <h2 id="exibirNome">Carregando...</h2>
+            <span class="badge-funcao" id="exibirFuncao">---</span>
+        </section>
+
+        <div class="perfil-grid">
+            <section class="perfil-card">
+                <h3>Informações Pessoais</h3>
+                <div class="info-list">
+                    <div class="info-item">
+                        <label>Nome Completo</label>
+                        <p id="nome">...</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Gênero</label>
+                        <p id="genero">...</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Telefone</label>
+                        <p id="telefone">...</p>
+                    </div>
+                    <div class="info-item">
+                        <label>E-mail</label>
+                        <p id="email">...</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="perfil-card">
+                <h3>Segurança e Acesso</h3>
+                <form id="formSenha" class="form-perfil">
+                    <div class="campo">
+                        <label>Senha Atual</label>
+                        <input type="password" required placeholder="Digite a senha atual">
+                    </div>
+                    <div class="campo">
+                        <label>Nova Senha</label>
+                        <input type="password" required placeholder="Mínimo 6 dígitos">
+                    </div>
+                    <div class="campo">
+                        <label>Confirmar Nova Senha</label>
+                        <input type="password" required placeholder="Repita a nova senha">
+                    </div>
+                    <button type="submit" class="btn-save">Atualizar Credenciais</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/perfil.js"></script>
+</body>
+</html>

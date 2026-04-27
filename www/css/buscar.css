@@ -1,0 +1,115 @@
+body {
+    background: #0f0c2b;
+    color: #c7c7ce;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+}
+
+.container {
+    background: #16133a;
+    border-radius: 12px;
+    margin: 20px auto;
+    max-width: 450px;
+    padding: 20px;
+    width: 95%;
+    text-align: center;
+}
+
+input#referencia {
+    background: #0f0c2b;
+    border: 1px solid #c7c7ce;
+    border-radius: 6px;
+    color: #c7c7ce;
+    font-size: 1rem;
+    margin: 15px 0;
+    padding: 8px;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+    outline: none;
+}
+
+input#referencia:focus {
+    border: 1px solid #083492;
+    transition: 0.3s ease-in-out;
+}
+
+.tabela-resultados {
+    background: #0f0c2b;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    background: #083492;
+    padding: 12px 8px;
+    position: sticky;
+    top: 0;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 10px 5px;
+    border-bottom: 1px solid #2c2c5a;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+#btnScanner {
+    background: #075a20;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-link {
+    display: block;
+    background: #083492;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-link:hover {
+    opacity: 5;
+    transition: 0.3s ease-in-out;
+}
+
+@media (max-width: 600px) {
+    .navbar { 
+        text-align: center; 
+    }
+
+    .navbar .menu {
+        margin-top: 15px; 
+    }
+
+    th, td { 
+        padding: 5px; 
+        font-size: 0.75rem; 
+    }
+
+    .alerta {
+    margin: 90% auto;
+    max-width: 300px;
+    padding: 10px;
+    width: 100%;
+    z-index: 100;
+    }
+}

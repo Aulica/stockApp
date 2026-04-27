@@ -1,0 +1,173 @@
+/* ========================= */
+/* CORPO */
+/* ========================= */
+
+body{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+padding:20px;
+}
+
+/* ========================= */
+/* TITULOS */
+/* ========================= */
+
+h1{
+font-size:18pt;
+font-weight:600;
+margin-bottom:10px;
+}
+
+h2{
+font-size:14pt;
+font-weight:500;
+margin-bottom:10px;
+}
+
+/* ========================= */
+/* FORMULÁRIO */
+/* ========================= */
+
+form{
+display:flex;
+flex-direction:column;
+align-items:center;
+width:100%;
+max-width:320px;
+background:#16133a;
+padding:20px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
+margin-top:10px;
+}
+
+
+/* ========================= */
+/* BOTÃO VOLTAR */
+/* ========================= */
+
+a{
+border:1px solid #c2b9b9;
+border-radius:6px;
+color:#c2b9b9;
+font-size:12pt;
+font-weight:500;
+margin-top:15px;
+padding:8px 10px;
+text-decoration:none;
+width:100%;
+max-width:320px;
+text-align:center;
+}
+
+a:hover{
+background:#05662a;
+border:none;
+transition:.3s;
+}
+
+/* O Spinner */
+.spinner {
+    display: none; /* Escondido por padrão */
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Estilo extra para o botão quando desativado */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+footer{
+margin-top:40px;
+text-align:center;
+font-size:10pt;
+}
+
+/* ========================= */
+/* TABLET */
+/* ========================= */
+
+@media (max-width:900px){
+
+body{
+padding:15px;
+}
+
+h1{
+    margin-top: 20px;
+    font-size:16pt;
+}
+
+}
+
+/* ========================= */
+/* TELEFONE */
+/* ========================= */
+
+@media (max-width:600px){
+
+form{
+width:100%;
+padding:15px;
+}
+
+h1{
+    font-size: 15pt;
+    margin-top: 50px;
+    text-align: center;
+}
+
+h2{
+font-size:13pt;
+text-align:center;
+}
+
+}
+
+/* ========================= */
+/* TELEFONE PEQUENO */
+/* ========================= */
+
+@media (max-width:300px){
+
+h1{
+    font-size: 13pt;
+    margin-top: 50px;
+    text-align: center;
+}
+
+h2{
+font-size:11pt;
+}
+
+form label{
+font-size:10pt;
+}
+
+form input{
+font-size:9pt;
+}
+
+}

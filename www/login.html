@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Auxiliador do Stock</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login">
+        <h1>Auxiliador do Stock</h1>
+        <h2>Acessar a Área Privada</h2>
+
+        <form id="formLogin">
+            <label for="usuario">Tipo de Usuário</label>
+            <input name="usuario" id="usuario" placeholder="Usuário" required>
+            
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required>
+            
+            <button type="submit" id="btnEntrar">Entrar</button>
+            <div class="sessacao"><p>Não tenho conta</p><a href="cadastro_usuario.html">Criar uma</a></div>
+            
+            <div id="mensagem" class="alerta"></div>
+        </form>
+    </div>
+
+    <footer>
+        &copy; 2026 - Auxiliador do Stock - Versão 1
+    </footer>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

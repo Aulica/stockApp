@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/buscar.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/perfil.css">
+    <title>Buscador de Referências</title>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Auxiliador do Stock</h1>
+
+        <div class="perfil-menu">
+            <a href="perfil.html" class="avatar-link">
+                <img src="img/perfil/perfil.png" id="navFotoPerfil" alt="Ver Perfil">
+                <span class="user-name-tooltip">Meu perfil</span>
+            </a>
+        </div>
+
+        <div class="botao" id="btnMenuMobile">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="menu">
+            <li><a href="admin.html">Painel do Administrador</a></li>
+            <li><a href="login.html">Sair</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <label for="referencia">Procurar a Referência</label>
+        <input type="text" id="referencia" placeholder="Digite a referência..." autocomplete="off">
+
+        <div class="tabela-resultados">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Referência</th>
+                        <th>Balcão</th>
+                        <th>Armazém 1</th>
+                        <th>Armazém 2</th>
+                    </tr>
+                </thead>
+                <tbody id="resultado">
+                    <tr><td colspan="4">Aguardando digitação...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button id="btnScanner">Ler Código de Barras</button>
+        <div id="scanner"></div>
+        <a href="admin.html" class="btn-link">Responsável do Stock</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/scanner.js"></script>
+
+    <footer>&copy; 2026 - Auxiliador do Stock - Versão 1</footer>
+</body>
+</html>

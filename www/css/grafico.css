@@ -1,0 +1,55 @@
+.dashboard {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #16133a;
+    border: 1px solid #083492;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.card p {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #4ee44e; /* Cor verde para números */
+}
+
+/* Contentores dos Gráficos */
+.canvas-wrapper, .canvas-wrapper-pizza {
+    position: relative;
+    height: 300px; /* Altura fixa para o gráfico aparecer */
+    width: 100%;
+    margin-top: 15px;
+}
+
+.grafico-box, .grafico-container {
+    background: #16133a;
+    border: 1px solid #083492;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+h3 { color: #c7c7ce; 
+    margin-bottom: 10px; 
+    text-align: center; 
+}
+
+.alerta.erro {
+    background: #ff4d4d;
+    color: #c7c7ce;
+    padding: 10px;
+    border-radius: 5px;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.app.stockApp" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Jacob</name>
+  <description>
+       Este sistema foi construido com o objetivo de auxiliar os funcionários do stock e recebe o nome de Jacob em homenagem a um funcionário exemplar da Lilás Lubango
+       apesar do salário recompesavel, ainda assim fazia o seu trabalho com se o Stock fosse a sua casa.
+    </description>
+  <author email="dev@cordova.apache.org">
+        Julião Cassoma Binda Aulica
+    </author>
+  <content src="login.html"/>
+  <access origin="*"/>
+  <allow-intent href="http://*/*"/>
+  <allow-intent href="https://*/*"/>
+  <platform name="android">
+    <access origin="*"/>
+    <allow-navigation href="http://192.168.43.221/*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="market:*"/>
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+      <application android:usesCleartextTraffic="true"/>
+    </edit-config>
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+      <application android:usesCleartextTraffic="true"/>
+    </edit-config>
+    <icon src="res/icon/logo.png"/>
+    <preference name="SplashScreen" value="screen"/>
+    <preference name="SplashScreenDelay" value="3000"/>
+    <preference name="FadeSplashScreen" value="true"/>
+    <preference name="FadeSplashScreenDuration" value="500"/>
+    <preference name="AutoHideSplashScreen" value="true"/>
+    <preference name="AndroidWindowSplashScreenBackground" value="#007bff"/>
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/logo.png"/>
+  </platform>
+</widget>
