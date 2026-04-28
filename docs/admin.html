@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/perfil.css">
+    <script src="js/autenticacao.js"></script>
+    <script>verificarAcessoAdmin();</script>
+    <title>Painel do Administrador</title>
+</head>
+
+<body>
+    <div class="admin">
+        <nav class="navbar">
+            <h1>Auxiliador do Stock</h1>
+            <div class="perfil-menu">
+                <a href="perfil.html" class="avatar-link">
+                    <img src="img/perfil/perfil.png" id="navFotoPerfil" alt="Ver Perfil">
+                    <span class="user-name-tooltip">Meu perfil</span>
+                </a>
+            </div>
+            <div class="botao">
+                <div class="line1"></div><div class="line2"></div><div class="line3"></div>
+            </div>
+            <ul class="menu">
+                <li><a href="index.html">Procurar Referências</a></li>
+                <li><a href="dashboard.html">Gráficos de Stock</a></li>
+                <li><a href="cadastro_usuario.html">Criar conta</a></li>
+                <li><a href="javascript:void(0)" onclick="fazerLogout()">Sair Deste Painel</a></li>
+            </ul>
+        </nav>
+        
+        <div class="grupo">
+            <form id="formProduto" class="formulario-admin" onsubmit="salvarProduto(event)">
+                <h2>Adicionar Referência</h2>
+                
+                <div class="campo">
+                    <label for="referencia">Referência</label>
+                    <input type="text" name="referencia" id="referencia" placeholder="Ex: V250" required>
+                </div>
+                
+                <div class="campo">
+                    <label for="balcao">Balcão</label>
+                    <input name="balcao" id="balcao" placeholder="Exemplo: A1" required>
+                </div>
+                
+                <div class="campo">
+                    <label for="localizacao">Destino do Registo</label>
+                    <select name="localizacao" id="localizacao" required>
+                        <option value="armazem1">Armazém 1</option>
+                        <option value="armazem2">Armazém 2</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="btnSalvar">Salvar Referência</button>
+            </form>
+
+            <div class="tabela-container">
+                <div class="buscarTabela">
+                    <label for="buscarProduto">Procurar Referência</label>
+                    <input type="text" id="buscarProduto" placeholder="Digite para filtrar...">
+                </div>
+
+                <div class="tabela-involucro">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Referência</th>
+                                <th>Balcão</th>
+                                <th>A1</th>
+                                <th>A2</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaProdutos"></tbody>
+                    </table>
+                    <div id="loading" class="carregar">Carregando...</div>
+                </div>
+            </div>
+        </div> 
+
+        <div id="modalConfirmacao" class="modal-overlay">
+            <div class="modal-content">
+                <h3 id="modalTitulo">Atenção</h3> 
+                <p id="modalMensagem"></p>
+                <div class="modal-buttons">
+                    <button type="button" id="btnSim" class="btn-confirmar">Sim</button>
+                    <button type="button" id="btnNao" class="btn-cancelar">Não</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mensagemFeedback" class="alerta"></div>
+    </div>
+
+    <footer>&copy; 2026 - Auxiliador do Stock</footer>
+
+    <script src="js/admin.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>

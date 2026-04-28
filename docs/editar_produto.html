@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/editar.css">
+    <script src="https:js/menu.js"></script>
+    <title>Editar Referência</title>
+</head>
+<body>
+    <h1>Auxiliador do Stock</h1>
+    
+    <form id="formEditar" class="formulario-admin">
+        <input type="hidden" id="input_id" name="id">
+        
+        <label>Referência</label>
+        <input id="input_referencia" name="referencia" placeholder="Referência" required>
+        
+        <label>Balcão</label>
+        <input id="input_balcao" name="balcao" placeholder="Balcão">
+        
+        <label>Armazém 1</label>
+        <input id="input_armazem1" name="armazem1" placeholder="Armazém 1">
+        
+        <label>Armazém 2</label>
+        <input id="input_armazem2" name="armazem2" placeholder="Armazém 2">
+
+        <button type="submit" id="btnSalvar">
+            <span id="loader" class="spinner" style="display:none;"></span>
+            <span id="btnText">Atualizar</span>
+        </button>
+        <a href="admin.html">Voltar</a>
+    </form>
+    <div id="msgSucesso" style="display:none; color:green; margin-top:10px;">✅ Atualizado!</div>
+
+    <script src="js/editar.js"></script>
+
+</body>
+</html>

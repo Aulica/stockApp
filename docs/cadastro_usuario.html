@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="login">
+    <h1>Cadastrar Usuário</h1>
+
+    <form id="formCadastro">
+
+        <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" placeholder="Nome Completo" required>
+        </div>
+
+        <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+        </div>
+    
+        <div class="campo">
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefone" placeholder="Telefone (ex: 9xx...)" required>
+        </div>
+
+        <div class="campo">
+            <label for="usuario">Usuário</label>
+            <input id="usuario" name="usuario" required placeholder="Nome de usuário">
+        </div>
+
+        <div class="campo">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" required placeholder="Senha">
+        </div>
+
+        <div class="campo">
+            <label for="tipo">Gênero</label>
+            <select id="genero">
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <select name="tipo" id="tipo">
+                <option value="Operador">Operador de Stock</option>
+            </select>
+            </div>
+
+        <button type="submit" id="btnCadastrar">Cadastrar</button>
+        <div class="sessacao"><a href="cadastro_usuario.html">Já tenho conta</a></div>
+        <div id="mensagem" class="alerta" style="display:none;"></div>
+    </form>
+
+    <a href="admin.html" class="voltar">Voltar</a>
+</div>
+
+<script src="js/cadastro.js"></script>
+
+</body>
+</html>
