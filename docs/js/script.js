@@ -1,12 +1,14 @@
-const API_URL = "https://a-stock.rf.gd/api"; // URL Base
+// js/script.js
 
-const inputBusca = document.getElementById("referencia");
-const tabelaBody = document.getElementById("resultado");
+document.addEventListener("DOMContentLoaded", () => {
 
-let timerBusca;
+    const inputBusca = document.getElementById("referencia");
+    const tabelaBody = document.getElementById("resultado");
 
-// 🔒 Proteção: só executa se o input existir
-if (inputBusca && tabelaBody) {
+    let timerBusca;
+
+    // 🔒 Proteção: só executa se os elementos existirem
+    if (!inputBusca || !tabelaBody) return;
 
     inputBusca.addEventListener("input", function () {
         const termo = this.value.trim();
@@ -18,36 +20,42 @@ if (inputBusca && tabelaBody) {
             return;
         }
 
-        // Debounce
         timerBusca = setTimeout(() => {
             executarBusca(termo);
             registrarLogBusca(termo);
         }, 300);
     });
 
-}
+    // 🔐 Controle de acesso visual (sem quebrar o JS)
+    const tipo = localStorage.getItem('tipoUsuario');
+    const btn = document.querySelector('.btn-link');
+
+    if (btn && tipo !== 'admin') {
+        btn.style.display = 'none';
+    }
+});
 
 // 🔍 BUSCA PRINCIPAL
 async function executarBusca(termo) {
+    const tabelaBody = document.getElementById("resultado");
+
     tabelaBody.innerHTML = "<tr><td colspan='4'>Buscando...</td></tr>";
 
     try {
-        const response = await fetch(`${API_URL}/buscar.php?referencia=${encodeURIComponent(termo)}`);
+        const response = await fetch(`${CONFIG.API_URL}/buscar.php?referencia=${encodeURIComponent(termo)}`);
 
-        // 🔒 Verifica erro HTTP (404, 500, etc)
         if (!response.ok) {
             throw new Error(`Erro HTTP: ${response.status}`);
         }
 
         const texto = await response.text();
 
-        // 🔒 Evita crash se PHP retornar erro em HTML
         let produtos;
         try {
             produtos = JSON.parse(texto);
-        } catch (e) {
-            console.error("Resposta inválida do servidor:", texto);
-            throw new Error("Erro no formato JSON");
+        } catch {
+            console.error("Resposta inválida:", texto);
+            throw new Error("Erro no JSON");
         }
 
         if (Array.isArray(produtos) && produtos.length > 0) {
@@ -79,13 +87,8 @@ async function executarBusca(termo) {
     }
 }
 
-// 📊 LOG DE BUSCA (não bloqueia a app)
+// 📊 LOG (não quebra o sistema se falhar)
 function registrarLogBusca(termo) {
-    fetch(`${API_URL}/registrar_busca.php?termo=${encodeURIComponent(termo)}`)
-        .catch(err => console.warn("Falha ao registrar log:", err));
-}
-
-const tipo = localStorage.getItem('tipoUsuario');
-if (tipo !== 'admin') {
-    document.querySelector('.btn-link').style.display = 'none';
+    fetch(`${CONFIG.API_URL}/registrar_busca.php?termo=${encodeURIComponent(termo)}`)
+        .catch(() => {});
 }
