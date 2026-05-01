@@ -1,4 +1,4 @@
-const API_URL = "http://a-stock.rf.gd/api"; // URL Base
+const API_URL = "https://a-stock.rf.gd/api"; // URL Base
 
 const inputBusca = document.getElementById("referencia");
 const tabelaBody = document.getElementById("resultado");
