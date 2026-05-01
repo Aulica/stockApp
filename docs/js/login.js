@@ -1,12 +1,12 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('formLogin');
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("formLogin");
     if (!form) return;
 
-    form.addEventListener('submit', async function(e) {
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const btn = document.getElementById('btnEntrar');
-        const msg = document.getElementById('mensagem');
+        const btn = document.getElementById("btnEntrar");
+        const msg = document.getElementById("mensagem");
 
         const usuario = form.usuario.value.trim();
         const senha = form.senha.value.trim();
@@ -26,49 +26,33 @@ document.addEventListener("DOMContentLoaded", function() {
         const formData = new FormData(form);
 
         try {
-            const controller = new AbortController();
-            setTimeout(() => controller.abort(), 10000);
-
             const res = await fetch(`${CONFIG.API_URL}/login.php`, {
-                method: 'POST',
+                method: "POST",
                 body: formData,
-                signal: controller.signal
+                credentials: "include" // 🔥 ESSENCIAL PARA SESSÃO
             });
 
             if (!res.ok) throw new Error("HTTP " + res.status);
 
-            const texto = await res.text();
+            const data = await res.json();
 
-            let data;
-            try {
-                data = JSON.parse(texto);
-            } catch {
-                console.error("Resposta inválida:", texto);
-                throw new Error("JSON inválido");
-            }
-
-            console.log("LOGIN RESPONSE:", data); // 🔍 DEBUG
+            console.log("LOGIN RESPONSE:", data);
 
             if (data.status === "sucesso") {
-
-                // ✔️ USAR O CAMPO CORRETO DO PHP
                 const tipo = (data.tipo || "").toLowerCase().trim();
 
-                localStorage.setItem('usuarioLogado', data.usuario);
-                localStorage.setItem('tipoUsuario', tipo);
+                localStorage.setItem("usuarioLogado", data.usuario);
+                localStorage.setItem("tipoUsuario", tipo);
 
-                // ✔️ REDIRECIONAMENTO SEGURO
                 if (tipo === "admin") {
                     window.location.href = "./admin.html";
                 } else {
                     window.location.href = "./index.html";
                 }
-
             } else {
                 mostrarErro(msg, data.mensagem || "Erro no login");
                 resetarBotao(btn);
             }
-
         } catch (err) {
             console.error("Erro:", err);
             mostrarErro(msg, "Erro ao conectar ao servidor.");
@@ -77,9 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// =========================
 // AUXILIARES
-// =========================
 function mostrarErro(msg, texto) {
     if (!msg) {
         alert(texto);
@@ -90,7 +72,7 @@ function mostrarErro(msg, texto) {
     msg.className = "alerta erro";
     msg.style.display = "block";
 
-    setTimeout(() => msg.style.display = "none", 3000);
+    setTimeout(() => (msg.style.display = "none"), 3000);
 }
 
 function resetarBotao(btn) {
