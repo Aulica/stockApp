@@ -38,13 +38,23 @@ document.addEventListener("DOMContentLoaded", function() {
             if (!res.ok) throw new Error("HTTP " + res.status);
 
             const texto = await res.text();
-            const data = JSON.parse(texto);
+
+            let data;
+            try {
+                data = JSON.parse(texto);
+            } catch {
+                console.error("Resposta inválida:", texto);
+                throw new Error("JSON inválido");
+            }
 
             if (data.status === "sucesso") {
-                localStorage.setItem('usuarioLogado', data.usuario);
-                localStorage.setItem('tipoUsuario', data.tipo);
 
-                if (data.tipo === "admin") {
+                // ✔️ CORREÇÃO AQUI
+                localStorage.setItem('usuarioLogado', data.usuario);
+                localStorage.setItem('tipoUsuario', data.funcao);
+
+                // ✔️ Redirecionamento seguro
+                if (data.funcao === "admin") {
                     window.location.href = "admin.html";
                 } else {
                     window.location.href = "index.html";
