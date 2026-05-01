@@ -47,21 +47,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 throw new Error("JSON inválido");
             }
 
+            console.log("LOGIN RESPONSE:", data); // 🔍 DEBUG
+
             if (data.status === "sucesso") {
 
-                // ✔️ CORREÇÃO AQUI
-                localStorage.setItem('usuarioLogado', data.usuario);
-                localStorage.setItem('tipoUsuario', data.funcao);
+                // ✔️ USAR O CAMPO CORRETO DO PHP
+                const tipo = (data.tipo || "").toLowerCase().trim();
 
-                // ✔️ Redirecionamento seguro
-                if (data.funcao === "admin") {
-                    window.location.href = "admin.html";
+                localStorage.setItem('usuarioLogado', data.usuario);
+                localStorage.setItem('tipoUsuario', tipo);
+
+                // ✔️ REDIRECIONAMENTO SEGURO
+                if (tipo === "admin") {
+                    window.location.href = "./admin.html";
                 } else {
-                    window.location.href = "index.html";
+                    window.location.href = "./index.html";
                 }
 
             } else {
-                mostrarErro(msg, data.mensagem);
+                mostrarErro(msg, data.mensagem || "Erro no login");
                 resetarBotao(btn);
             }
 
@@ -73,7 +77,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+// =========================
 // AUXILIARES
+// =========================
 function mostrarErro(msg, texto) {
     if (!msg) {
         alert(texto);
