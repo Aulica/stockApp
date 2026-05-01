@@ -26,12 +26,12 @@
     
         <div class="campo">
             <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" name="telefone" placeholder="Telefone (ex: 9xx...)" required>
+            <input type="tel" id="telefone" name="telefone" placeholder="9xxxxxxxx" pattern="[0-9]{9}" required>
         </div>
 
         <div class="campo">
             <label for="usuario">Usuário</label>
-            <input id="usuario" name="usuario" required placeholder="Nome de usuário">
+            <input type="text" id="usuario" name="usuario" required placeholder="Nome de usuário">
         </div>
 
         <div class="campo">
@@ -40,8 +40,13 @@
         </div>
 
         <div class="campo">
+            <label for="confirmarSenha">Confirmar Senha</label>
+            <input type="password" id="confirmarSenha" required placeholder="Repita a senha">
+        </div>
+
+        <div class="campo">
             <label for="tipo">Gênero</label>
-            <select id="genero">
+            <select id="genero" name="genero">
                 <option value="Masculino">Masculino</option>
                 <option value="Feminino">Feminino</option>
             </select>
@@ -54,14 +59,16 @@
             </div>
 
         <button type="submit" id="btnCadastrar">Cadastrar</button>
-        <div class="sessacao"><a href="cadastro_usuario.html">Já tenho conta</a></div>
+        <div class="sessacao"><a href="login.html">Já tenho conta</a></div>
+        <a href="index.html" class="voltar">Voltar</a>
+
         <div id="mensagem" class="alerta" style="display:none;"></div>
+
     </form>
+    </div>
 
-    <a href="admin.html" class="voltar">Voltar</a>
-</div>
-
-<script src="js/cadastro.js"></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/cadastro.js" defer></script>
 
 </body>
 </html>

@@ -1,109 +1,161 @@
-// CONFIGURAÇÃO: Use HTTP. O HTTPS em IP local causa o erro que você está vendo.
-const API_URL = "http://192.168.43.221/estoque_app/api"; 
+const CONFIG = {
+    API_URL: "https://a-stock.rf.gd/api"
+};
+
 let dadosParaConfirmar = null;
 
+// INIT
 document.addEventListener("DOMContentLoaded", () => {
-    // Tenta carregar os dados assim que a página abre
-    carregarDados(true);
+    carregarDados();
+    configurarEventos();
+});
 
-    // Lógica da Modal
+// EVENTOS
+function configurarEventos() {
     const btnSim = document.getElementById('btnSim');
+    const btnNao = document.getElementById('btnNao');
+    const form = document.getElementById("formProduto");
+    const inputBusca = document.getElementById("buscarProduto");
+
     if (btnSim) {
         btnSim.addEventListener('click', () => {
             if (dadosParaConfirmar) {
                 dadosParaConfirmar.set('confirmado', 'sim');
-                // IMPORTANTE: Ao deletar o ID, o MySQL cria um NOVO registro automático (Duplicação)
-                dadosParaConfirmar.delete('id'); 
+                dadosParaConfirmar.delete('id');
                 fecharModalConfirmacao();
                 enviarDadosAoServidor(dadosParaConfirmar);
             }
         });
     }
-    
-    const btnNao = document.getElementById('btnNao');
-    if (btnNao) btnNao.addEventListener('click', fecharModalConfirmacao);
-});
 
-// MOTOR DE LISTAGEM - CORRIGIDO
-function carregarDados(novaBusca = false) {
+    if (btnNao) btnNao.addEventListener('click', fecharModalConfirmacao);
+
+    if (form) {
+        form.addEventListener("submit", salvarProduto);
+    }
+
+    // 🔍 BUSCA LOCAL NA TABELA
+    if (inputBusca) {
+        inputBusca.addEventListener("input", function () {
+            const termo = this.value.toLowerCase();
+            const linhas = document.querySelectorAll("#tabelaProdutos tr");
+
+            linhas.forEach(linha => {
+                const texto = linha.innerText.toLowerCase();
+                linha.style.display = texto.includes(termo) ? "" : "none";
+            });
+        });
+    }
+}
+
+// =========================
+// 📦 LISTAGEM
+// =========================
+function carregarDados() {
     const tabela = document.getElementById("tabelaProdutos");
     const loading = document.getElementById("loading");
 
-    if(loading) loading.style.display = "block";
+    if (loading) {
+        loading.style.display = "block";
+        loading.innerText = "Carregando...";
+    }
 
-    // Adicionamos um timestamp (&t=...) para forçar o navegador a não usar cache
-    const url = `${API_URL}/carregar_produtos.php?t=${new Date().getTime()}`;
-
-    fetch(url)
+    fetch(`${CONFIG.API_URL}/carregar_produtos.php?t=${Date.now()}`)
         .then(res => {
-            if (!res.ok) throw new Error("Erro na rede: " + res.status);
+            if (!res.ok) throw new Error("Erro HTTP: " + res.status);
             return res.text();
         })
         .then(html => {
-            if(tabela) tabela.innerHTML = html;
-            if(loading) loading.style.display = "none";
+            if (tabela) tabela.innerHTML = html;
         })
         .catch(err => {
-            console.error("Erro ao carregar tabela:", err);
-            if(loading) loading.innerText = "Erro ao conectar ao servidor.";
+            console.error("Erro ao carregar:", err);
+            if (tabela) {
+                tabela.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="color:red;text-align:center;">
+                            Erro ao conectar ao servidor
+                        </td>
+                    </tr>
+                `;
+            }
+        })
+        .finally(() => {
+            if (loading) loading.style.display = "none";
         });
 }
 
-// FUNÇÃO SALVAR/DUPLICAR
+// =========================
+// 💾 SALVAR
+// =========================
 function salvarProduto(event) {
     event.preventDefault();
+
     const form = event.target;
     const formData = new FormData(form);
-    
-    // Se não for edição, garantimos que não vai ID
     const btn = document.getElementById("btnSalvar");
+
     if (btn && btn.innerText !== "Atualizar Produto") {
         formData.delete('id');
     }
 
     formData.set('confirmado', 'nao');
+
     enviarDadosAoServidor(formData, form);
 }
 
 function enviarDadosAoServidor(formData, formElement = null) {
     const btn = document.getElementById("btnSalvar");
-    if(btn) btn.disabled = true;
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "Salvando...";
+    }
 
-    fetch(`${API_URL}/adicionar.php`, {
+    fetch(`${CONFIG.API_URL}/cadastrar_produto.php`, {
         method: 'POST',
         body: formData
     })
     .then(async res => {
         const texto = await res.text();
+
         try {
             return JSON.parse(texto);
-        } catch(e) {
-            // Se der erro de formato, o erro real aparecerá aqui no F12
-            console.error("Resposta bruta do PHP:", texto);
-            throw new Error("Erro de formato no servidor.");
+        } catch {
+            console.error("Resposta inválida do servidor:", texto);
+            throw new Error("Erro no JSON");
         }
     })
     .then(data => {
         if (data.status === "confirmacao") {
             dadosParaConfirmar = formData;
             abrirModalConfirmacao(data.mensagem);
-        } else if (data.status === "sucesso") {
+        } 
+        else if (data.status === "sucesso") {
             mostrarAlerta(data.mensagem, "sucesso");
-            if(formElement) formElement.reset();
-            carregarDados(true); 
-        } else {
+
+            if (formElement) formElement.reset();
+
+            carregarDados();
+        } 
+        else {
             mostrarAlerta(data.mensagem, "erro");
         }
     })
     .catch(err => {
-        mostrarAlerta("Falha na comunicação. Verifique o console (F12).", "erro");
+        console.error(err);
+        mostrarAlerta("Falha na comunicação com o servidor.", "erro");
     })
     .finally(() => {
-        if(btn) btn.disabled = false;
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Salvar Referência";
+        }
     });
 }
 
-// Funções de interface (Modal/Alerta)
+// =========================
+// 🧠 UI
+// =========================
 function abrirModalConfirmacao(msg) {
     document.getElementById('modalMensagem').innerText = msg;
     document.getElementById('modalConfirmacao').style.display = "flex";
@@ -115,8 +167,46 @@ function fecharModalConfirmacao() {
 
 function mostrarAlerta(msg, tipo) {
     const alerta = document.getElementById("mensagemFeedback");
+    if (!alerta) return;
+
     alerta.innerText = msg;
     alerta.className = `alerta ${tipo}`;
     alerta.style.display = "block";
-    setTimeout(() => alerta.style.display = "none", 4000);
+
+    setTimeout(() => {
+        alerta.style.display = "none";
+    }, 4000);
+}
+
+// =========================
+// 🗑️ ELIMINAR
+// =========================
+function eliminarProduto(id) {
+    if (!id) return;
+
+    if (confirm("Deseja realmente apagar este produto?")) {
+        fetch(`${CONFIG.API_URL}/eliminar.php?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "sucesso") {
+                    mostrarAlerta("Produto eliminado!", "sucesso");
+                    carregarDados();
+                } else {
+                    mostrarAlerta(data.mensagem || "Erro ao eliminar", "erro");
+                }
+            })
+            .catch(() => {
+                mostrarAlerta("Erro de conexão", "erro");
+            });
+    }
+}
+
+// =========================
+// ✏️ EDITAR
+// =========================
+function editarProduto(id) {
+    if (!id) return;
+
+    localStorage.setItem('id_para_editar', id);
+    window.location.href = "editar_produto.html";
 }

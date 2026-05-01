@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Inicio das ligação do CSS-->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/grafico.css">
     <link rel="stylesheet" href="css/menu.css">
+    <!--Fim das ligação do CSS-->
+
+    <!--Inicio das ligação do JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/autenticacao.js"></script>
+    <script>verificarLogado();</script>
+    <!--Fim das ligação do JavaScript-->
+
     <title>Dashboard de Stock</title>
 </head>
 <body>
     
+    <!--Inicio do cabecalho-->
     <nav class="navbar">
             <h1>Estátistica do Stock</h1>
 
@@ -25,8 +35,11 @@
                 <li><a href="admin.html">Administrador</a></li>
                 <li><a href="javascript:void(0)" onclick="fazerLogout()">Sair Deste Painel</a></li>
             </ul>
-        </nav>
+    </nav>
+    <!--Fim do cabecalho-->
 
+    <!--Inicio do corpo-->
+    <!--Inicio da divisão da Referências mais Procuradas-->
     <div class="dashboard">
         <div class="cards">
             <div class="card"><h2>Total Referências</h2><p id="txtTotal">0</p></div>
@@ -41,7 +54,10 @@
                 <canvas id="graficoStock"></canvas>
             </div>
         </div>
+        <!--Fim da divisão da Referências mais Procuradas-->
+        
 
+        <!--Inicio da divisão da Registo do Stock-->
         <div class="grafico-container secundario">
             <h3>Produtos Mais Procurados</h3>
             <div class="canvas-wrapper-pizza">
@@ -49,13 +65,19 @@
             </div>
             <p id="msgSemDados" style="display:none; padding: 20px;">Ainda não há dados de buscas registradas.</p>
         </div>
+        <!--Fim da divisão da Referências mais Procuradas-->
+        <p id="loadingDados">Carregando dados...</p>
+
     </div>
+    <!--Fim do corpo-->
 
     <div id="mensagemFeedback" class="alerta"></div>
 
     <footer>&copy; 2026 - Auxiliador do Stock</footer>
-
+    
+    <script src="js/config.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/logout.js"></script>
 </body>
 </html>

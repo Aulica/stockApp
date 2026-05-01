@@ -1,40 +1,44 @@
-// 1. PEGAR O ID (Tenta URL primeiro, depois LocalStorage)
+// 1. PEGAR O ID
 const urlParams = new URLSearchParams(window.location.search);
 let produtoId = urlParams.get('id');
 
-// Se a URL falhou (comum no Android), tenta o LocalStorage
 if (!produtoId) {
     produtoId = localStorage.getItem('id_para_editar');
 }
 
-// ATENÇÃO: Verifique se o IP é o atual do seu PC!
-const API_BASE = "http://192.168.43.221/estoque_app/api"; 
-
-// 2. BUSCAR DADOS ASSIM QUE A PÁGINA CARREGAR
+// 2. CARREGAR DADOS
 if (produtoId) {
-    fetch(`${API_BASE}/get_produto.php?id=${produtoId}`)
-        .then(res => res.json())
+    fetch(`${CONFIG.API_URL}/get_produto.php?id=${produtoId}`)
+        .then(async res => {
+            const texto = await res.text();
+
+            try {
+                return JSON.parse(texto);
+            } catch {
+                console.error("Resposta inválida:", texto);
+                throw new Error("Erro no servidor");
+            }
+        })
         .then(produto => {
-            // Preenche os campos (Certifique-se que os IDs dos inputs no HTML são estes mesmos)
-            document.getElementById('input_id').value = produto.id;
-            document.getElementById('input_referencia').value = produto.referencia;
-            document.getElementById('input_balcao').value = produto.balcao;
-            document.getElementById('input_armazem1').value = produto.armazem1;
-            document.getElementById('input_armazem2').value = produto.armazem2;
+            document.getElementById('input_id').value = produto.id || '';
+            document.getElementById('input_referencia').value = produto.referencia || '';
+            document.getElementById('input_balcao').value = produto.balcao || '';
+            document.getElementById('input_armazem1').value = produto.armazem1 || '';
+            document.getElementById('input_armazem2').value = produto.armazem2 || '';
         })
         .catch(err => {
             console.error(err);
-            alert("Erro ao carregar dados. Verifique a conexão com o PC.");
+            alert("Erro ao carregar dados.");
         });
 } else {
-    alert("Nenhum ID de produto encontrado.");
+    alert("Nenhum produto selecionado.");
     window.location.href = "admin.html";
 }
 
-// 3. LÓGICA DE SALVAR
+// 3. SALVAR
 document.getElementById('formEditar').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     if (!navigator.onLine) {
         alert("Sem internet!");
         return;
@@ -46,15 +50,23 @@ document.getElementById('formEditar').addEventListener('submit', function(e) {
 
     const formData = new FormData(this);
 
-    fetch(`${API_BASE}/atualizar.php`, {
+    fetch(`${CONFIG.API_URL}/atualizar.php`, {
         method: "POST",
         body: formData
     })
-    .then(res => res.json())
+    .then(async res => {
+        const texto = await res.text();
+
+        try {
+            return JSON.parse(texto);
+        } catch {
+            console.error("Resposta inválida:", texto);
+            throw new Error("Erro no servidor");
+        }
+    })
     .then(data => {
-        if(data.status === "sucesso") {
-            alert("✅ Atualizado com sucesso!");
-            // Limpa o ID do bolso para não confundir na próxima
+        if (data.status === "sucesso") {
+            alert("Atualizado com sucesso!");
             localStorage.removeItem('id_para_editar');
             window.location.href = "admin.html";
         } else {
@@ -64,7 +76,9 @@ document.getElementById('formEditar').addEventListener('submit', function(e) {
         }
     })
     .catch(err => {
+        console.error(err);
         alert("Erro de conexão ao salvar.");
         btn.disabled = false;
+        btn.innerText = "Salvar Alterações";
     });
 });

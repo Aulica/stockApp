@@ -1,70 +1,83 @@
- // ATUALIZADO COM O IP
-const API_URL = "http://192.168.43.221/estoque_app/api/login.php";
-            
-document.addEventListener("deviceready", function() {
-    if (navigator.splashscreen) {
-        setTimeout(function() {
-            navigator.splashscreen.hide();
-        }, 1000); 
-    }
-}, false);
-
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById('formLogin');
-    
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+    if (!form) return;
 
-            const btn = document.getElementById('btnEntrar');
-            const msg = document.getElementById('mensagem');
-           
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            btn.disabled = true;
-            btn.innerText = "Verificando...";
+        const btn = document.getElementById('btnEntrar');
+        const msg = document.getElementById('mensagem');
 
-            const formData = new FormData(this);
+        const usuario = form.usuario.value.trim();
+        const senha = form.senha.value.trim();
 
-            fetch(API_URL, {
+        if (!usuario || !senha) {
+            mostrarErro(msg, "Preencha todos os campos!");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "Verificando...";
+
+        msg.style.display = "block";
+        msg.className = "alerta";
+        msg.innerText = "Verificando credenciais...";
+
+        const formData = new FormData(form);
+
+        try {
+            const controller = new AbortController();
+            setTimeout(() => controller.abort(), 10000);
+
+            const res = await fetch(`${CONFIG.API_URL}/login.php`, {
                 method: 'POST',
-                body: formData
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('Servidor respondeu com erro ' + res.status);
-                return res.json();
-            })
-            .then(data => {
-                if (data.status === "sucesso") {
-                    localStorage.setItem('usuarioLogado', data.usuario);
-                    localStorage.setItem('tipoUsuario', data.tipo);
+                body: formData,
+                signal: controller.signal
+            });
+
+            if (!res.ok) throw new Error("HTTP " + res.status);
+
+            const texto = await res.text();
+            const data = JSON.parse(texto);
+
+            if (data.status === "sucesso") {
+                localStorage.setItem('usuarioLogado', data.usuario);
+                localStorage.setItem('tipoUsuario', data.tipo);
+
+                if (data.tipo === "admin") {
                     window.location.href = "admin.html";
                 } else {
-                    if (msg) {
-                        msg.innerText = data.mensagem;
-                        msg.className = "alerta erro";
-                        msg.style.display = "block";
-                        setTimeout(() => { msg.style.display = "none"; }, 3000);
-                    } else {
-                        alert(data.mensagem);
-                    }
-                    btn.disabled = false;
-                    btn.innerText = "Entrar";
+                    window.location.href = "index.html";
                 }
-            })
-            .catch(err => {
-                console.error("Erro detalhado:", err);
-                // ALERTA CORRIGIDO: Mostra o IP que falhou e o erro real
-                alert("Falha na conexão!\nURL: " + API_URL + "\nErro: " + err.message + "\n\nVerifique:\n1. Se o PC e Telemóvel estão no mesmo Wi-Fi.\n2. Se o Firewall do PC permite o Apache.");
-                btn.disabled = false;
-                btn.innerText = "Entrar";
-            });
-        });
-    }
+
+            } else {
+                mostrarErro(msg, data.mensagem);
+                resetarBotao(btn);
+            }
+
+        } catch (err) {
+            console.error("Erro:", err);
+            mostrarErro(msg, "Erro ao conectar ao servidor.");
+            resetarBotao(btn);
+        }
+    });
 });
 
-function fazerLogout() {
-    if (confirm("Deseja realmente sair do aplicativo?")) {
-        localStorage.clear(); 
-        window.location.href = "login.html";
+// AUXILIARES
+function mostrarErro(msg, texto) {
+    if (!msg) {
+        alert(texto);
+        return;
     }
+
+    msg.innerText = texto;
+    msg.className = "alerta erro";
+    msg.style.display = "block";
+
+    setTimeout(() => msg.style.display = "none", 3000);
+}
+
+function resetarBotao(btn) {
+    btn.disabled = false;
+    btn.innerText = "Entrar";
 }

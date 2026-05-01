@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Inicio das ligação CSS-->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/buscar.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/perfil.css">
+    <!--Fim das ligação CSS-->
+
+    <!--Inicio das ligação javascript-->
+    <script src="js/autenticacao.js"></script>
+    <script>verificarLogado();</script>
+    <!--Fim das ligação javascript-->
+
     <title>Buscador de Referências</title>
 </head>
 <body>
+
+    <!--Inicio do cabecalho-->
     <nav class="navbar">
         <h1>Auxiliador do Stock</h1>
 
@@ -25,12 +36,16 @@
             <div class="line2"></div>
             <div class="line3"></div>
         </div>
+
         <ul class="menu">
             <li><a href="admin.html">Painel do Administrador</a></li>
-            <li><a href="login.html">Sair</a></li>
+            <li><a href="javascript:void(0)" onclick="fazerLogout()">Sair</a></li>
         </ul>
-    </nav>
 
+    </nav>
+    <!--Fim do cabecalho-->
+
+    <!--Inicio do conteodo da Tabela-->
     <div class="container">
         <label for="referencia">Procurar a Referência</label>
         <input type="text" id="referencia" placeholder="Digite a referência..." autocomplete="off">
@@ -50,16 +65,19 @@
                 </tbody>
             </table>
         </div>
+        <!--Fim do conteodo da Tabela-->
 
         <button id="btnScanner">Ler Código de Barras</button>
         <div id="scanner"></div>
         <a href="admin.html" class="btn-link">Responsável do Stock</a>
     </div>
-
+    
+    <script src="js/config.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script src="js/menu.js"></script>
     <script src="js/script.js"></script>
     <script src="js/scanner.js"></script>
+    <script src="js/logout.js"></script>
 
     <footer>&copy; 2026 - Auxiliador do Stock - Versão 1</footer>
 </body>
