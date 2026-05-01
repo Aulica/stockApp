@@ -26,11 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData(form);
 
         try {
-            const res = await fetch(`${CONFIG.API_URL}/login.php`, {
-                method: "POST",
-                body: formData,
-                credentials: "include" // 🔥 ESSENCIAL PARA SESSÃO
-            });
+           const res = await fetch(`${CONFIG.API_URL}/login.php`, {
+    method: 'POST',
+    body: formData,
+    signal: controller.signal,
+    credentials: 'include' // 👈 CRÍTICO
+});
 
             if (!res.ok) throw new Error("HTTP " + res.status);
 
