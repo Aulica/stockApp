@@ -23,21 +23,31 @@ document.addEventListener("DOMContentLoaded", function () {
         msg.className = "alerta";
         msg.innerText = "Verificando credenciais...";
 
-        const formData = new FormData(form);
+        const formData = new FormData();
+        formData.append("usuario", usuario);
+        formData.append("senha", senha);
 
         try {
-           const res = await fetch(`${CONFIG.API_URL}/login.php`, {
-    method: 'POST',
-    body: formData,
-    signal: controller.signal,
-    credentials: 'include' // 👈 CRÍTICO
-});
+            // ✔️ CONTROLLER CORRETO
+            const controller = new AbortController();
+            setTimeout(() => controller.abort(), 10000);
+
+            console.log("URL:", `${CONFIG.API_URL}/login.php`);
+
+            const res = await fetch(`${CONFIG.API_URL}/login.php`, {
+                method: "POST",
+                body: formData,
+                signal: controller.signal,
+                credentials: "include"
+            });
+
+            console.log("STATUS:", res.status);
 
             if (!res.ok) throw new Error("HTTP " + res.status);
 
             const data = await res.json();
 
-            console.log("LOGIN RESPONSE:", data);
+            console.log("RESPOSTA:", data);
 
             if (data.status === "sucesso") {
                 const tipo = (data.tipo || "").toLowerCase().trim();
@@ -46,17 +56,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.setItem("tipoUsuario", tipo);
 
                 if (tipo === "admin") {
-                    window.location.href = "./admin.html";
+                    window.location.href = "admin.html";
                 } else {
-                    window.location.href = "./index.html";
+                    window.location.href = "index.html";
                 }
             } else {
                 mostrarErro(msg, data.mensagem || "Erro no login");
                 resetarBotao(btn);
             }
+
         } catch (err) {
-            console.error("Erro:", err);
-            mostrarErro(msg, "Erro ao conectar ao servidor.");
+            console.error("ERRO REAL:", err);
+            alert("Erro real: " + err.message); // 🔥 AGORA VAI MOSTRAR O ERRO VERDADEIRO
             resetarBotao(btn);
         }
     });
