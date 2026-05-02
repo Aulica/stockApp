@@ -11,11 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const usuario = form.usuario.value.trim();
         const senha = form.senha.value.trim();
 
+        // 🔒 Validação básica
         if (!usuario || !senha) {
             mostrarErro(msg, "Preencha todos os campos!");
             return;
         }
 
+        // 🔄 Estado de loading
         btn.disabled = true;
         btn.innerText = "Verificando...";
 
@@ -23,57 +25,67 @@ document.addEventListener("DOMContentLoaded", function () {
         msg.className = "alerta";
         msg.innerText = "Verificando credenciais...";
 
+        // 📦 Dados
         const formData = new FormData();
         formData.append("usuario", usuario);
         formData.append("senha", senha);
 
         try {
-            // ✔️ CONTROLLER CORRETO
-            const controller = new AbortController();
-            setTimeout(() => controller.abort(), 10000);
-
-            console.log("URL:", `${CONFIG.API_URL}/login.php`);
+            console.log("🔗 URL:", `${CONFIG.API_URL}/login.php`);
 
             const res = await fetch(`${CONFIG.API_URL}/login.php`, {
                 method: "POST",
-                body: formData,
-                signal: controller.signal,
-                credentials: "include"
+                body: formData
             });
 
-            console.log("STATUS:", res.status);
+            console.log("📡 STATUS:", res.status);
 
-            if (!res.ok) throw new Error("HTTP " + res.status);
+            if (!res.ok) {
+                throw new Error("Erro HTTP: " + res.status);
+            }
 
             const data = await res.json();
+            console.log("📥 RESPOSTA:", data);
 
-            console.log("RESPOSTA:", data);
-
+            // ✅ LOGIN OK
             if (data.status === "sucesso") {
                 const tipo = (data.tipo || "").toLowerCase().trim();
 
                 localStorage.setItem("usuarioLogado", data.usuario);
                 localStorage.setItem("tipoUsuario", tipo);
 
-                if (tipo === "admin") {
-                    window.location.href = "admin.html";
-                } else {
-                    window.location.href = "index.html";
-                }
+                msg.className = "alerta sucesso";
+                msg.innerText = "Login realizado com sucesso!";
+
+                // 🔁 Redirecionamento
+                setTimeout(() => {
+                    if (tipo === "admin") {
+                        window.location.href = "admin.html";
+                    } else {
+                        window.location.href = "index.html";
+                    }
+                }, 800);
+
             } else {
                 mostrarErro(msg, data.mensagem || "Erro no login");
                 resetarBotao(btn);
             }
 
         } catch (err) {
-            console.error("ERRO REAL:", err);
-            alert("Erro real: " + err.message); // 🔥 AGORA VAI MOSTRAR O ERRO VERDADEIRO
+            console.error("❌ ERRO REAL:", err);
+
+            mostrarErro(msg, "Erro ao conectar ao servidor.");
+            alert("Erro técnico: " + err.message);
+
             resetarBotao(btn);
         }
     });
 });
 
-// AUXILIARES
+// =========================
+// 🔧 FUNÇÕES AUXILIARES
+// =========================
+
 function mostrarErro(msg, texto) {
     if (!msg) {
         alert(texto);
@@ -84,7 +96,9 @@ function mostrarErro(msg, texto) {
     msg.className = "alerta erro";
     msg.style.display = "block";
 
-    setTimeout(() => (msg.style.display = "none"), 3000);
+    setTimeout(() => {
+        msg.style.display = "none";
+    }, 3000);
 }
 
 function resetarBotao(btn) {
